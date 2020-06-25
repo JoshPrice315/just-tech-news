@@ -1,15 +1,18 @@
+
 const User = require('./User');
 const Post = require('./Post');
 const Vote = require('./Vote');
 const Comment = require('./Comment');
 
-// create associations
+//create associations
 User.hasMany(Post, {
     foreignKey: 'user_id'
 });
 
+
 Post.belongsTo(User, {
-    foreignKey: 'user_id'
+    foreignKey: 'user_id',
+    // onDelete: "cascade"
 });
 
 User.belongsToMany(Post, {
@@ -22,7 +25,7 @@ Post.belongsToMany(User, {
     through: Vote,
     as: 'voted_posts',
     foreignKey: 'post_id'
-});
+})
 
 Vote.belongsTo(User, {
     foreignKey: 'user_id'
@@ -54,6 +57,8 @@ User.hasMany(Comment, {
 
 Post.hasMany(Comment, {
     foreignKey: 'post_id'
-});
+})
+
+
 
 module.exports = { User, Post, Vote, Comment };
